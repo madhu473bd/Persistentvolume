@@ -119,7 +119,12 @@ index.html
 > With this option, you can persist app and container data by using Kubernetes persistent volumes. Volumes are hosted on [Endurance and Performance NFS-based file storage](https://www.ibm.com/cloud/file-storage/details) which can be used for apps that store data on a file basis rather than in a database. File storage is encrypted at REST.
 
 > IBM Cloud Container Service provides predefined storage classes that define the range of sizes of the storage, IOPS, the delete policy, and the read and write permissions for the volume. To initiate a request for NFS-based file storage, you must create a persistent volume claim (PVC). After you submit a PVC, IBM Cloud Container Service dynamically provisions a persistent volume that is hosted on NFS-based file storage. You can mount the PVC as a volume to your deployment to allow the containers to read from and write to the volume.
-## [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
-## [On-prem database](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
 
+## [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+> With this option, you can persist data by using an IBM Cloud database cloud service, such as IBM Cloudant NoSQL DB. Data that is stored with this option can be accessed across clusters, locations, and regions.
+
+> You can choose to configure a single database instance that all your apps access, or to set up multiple instances across data centers and replication between the instances for higher availability. In IBM Cloudant NoSQL database, data is not backed up automatically. You can use the provided backup and restore mechanisms to protect your data from a site failure.
+
+## [On-prem database](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+> If your data must be stored on-site for legal reasons, you can set up a VPN connection to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
 
