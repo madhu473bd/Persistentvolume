@@ -40,7 +40,7 @@ task-pv-volume   10Gi       RWO            Retain           Bound     default/ta
 ```
   * PersistentVolumeClaim
   
-     Pods use PersistentVolumeClaims to request physical storage.
+     Pods use PersistentVolumeClaims to request physical storage.After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
          
  ```
  kind: PersistentVolumeClaim
@@ -55,7 +55,7 @@ resources:
 requests:
 storage: 3Gi
 ```
-   After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
+   
 
 # Persistent data storage options for high availability
 ## NFS file store     
