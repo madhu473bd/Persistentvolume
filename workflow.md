@@ -38,7 +38,22 @@ kubectl get pv task-pv-volume
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
 task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
 ```
-
+  * PersistentVolumeClaim
+         Pods use PersistentVolumeClaims to request physical storage.
+ ```
+ kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+name: task-pv-claim
+spec:
+storageClassName: manual
+accessModes:
+- ReadWriteOnce
+resources:
+requests:
+storage: 3Gi
+```
+After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
 
 # Persistent data storage options for high availability
 ## NFS file store     
