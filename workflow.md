@@ -31,6 +31,13 @@ accessModes:
 hostPath:
 path: "/tmp/data"
 ```
+```
+kubectl get pv task-pv-volume
+```
+```
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
+task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
+```
 
 
 # Persistent data storage options for high availability
