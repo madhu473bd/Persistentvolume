@@ -35,8 +35,8 @@ path: "/tmp/data"
 kubectl get pv task-pv-volume
 ```
 ```
-NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
-task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS        CLAIM                    STORAGECLASS   REASON    AGE
+task-pv-volume   10Gi       RWO            Retain           Available     default/task-pv-claim1   manual                   3h
 ```
   * PersistentVolumeClaim
   
@@ -55,7 +55,20 @@ resources:
 requests:
 storage: 3Gi
 ```
-   
+```
+kubectl get pv task-pv-volume
+```
+```
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
+task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
+```
+```
+kubectl get pvc task-pv-claim
+```
+```
+NAME            STATUS    VOLUME               CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+task-pv-claim   Bound     task-pv-nfs-volume   2Gi        RWO            manual         2h
+```
 
 # Persistent data storage options for high availability
 ## NFS file store     
