@@ -17,17 +17,17 @@ You can persist data in IBM Cloud Container Service to share data between app in
   kind: PersistentVolume
 apiVersion: v1
 metadata:
-name: task-pv-volume
-labels:
-type: local
+  name: task-pv-volume
+  labels:
+    type: local
 spec:
-storageClassName: manual
-capacity:
-storage: 10Gi
-accessModes:
-- ReadWriteOnce
-hostPath:
-path: "/tmp/data"
+  storageClassName: manual
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/tmp/data"
 ```
 ```
 kubectl get pv task-pv-volume
@@ -46,14 +46,14 @@ Pods use PersistentVolumeClaims to request physical storage.After you create the
  kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-name: task-pv-claim
+  name: task-pv-claim1
 spec:
-storageClassName: manual
-accessModes:
-- ReadWriteOnce
-resources:
-requests:
-storage: 3Gi
+  storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 3Gi
 ```
 ```
 kubectl get pvc task-pv-claim
@@ -75,21 +75,20 @@ Here you can see that the status has been changed to Bound from Available once t
 kind: Pod
 apiVersion: v1
 metadata:
-name: task-pv-pod
+  name: task-pv-nfs-pod
 spec:
-volumes:
-- name: task-pv-storage
-persistentVolumeClaim:
-claimName: task-pv-claim
-containers:
-- name: task-pv-container
-image: nginx
-ports:
-- containerPort: 80
-name: "http-server"
-volumeMounts:
-- mountPath: "/usr/share/nginx/html"
-name: task-pv-storage
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+       claimName: task-pv-claim 
+  containers:
+    - name: task-pv-container
+      image: centos:7
+      command: [ "sh" , "-c"]
+      args: ["-c", "while true; do echo madhutestlog > /tmp;sleep 1000;done"]
+      volumeMounts:
+        - mountPath: "/tmp"
+          name: task-pv-storage
 ```
 Notice that the Pod’s configuration file specifies a PersistentVolumeClaim, but it does not specify a PersistentVolume. From the Pod’s point of view, the claim is a volume. Here we are mapping task-pv-claim (/tmp/data) with /usr/share/nginx/html in kubernetes Pod. Now /tmp/data is on the host system and /usr/share/nginx/html is inside the Pod, if you update /usr/share/nginx/html inside Pod /tmp/data on host will reflact the same.
 
