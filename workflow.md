@@ -11,9 +11,9 @@ You can persist data in IBM Cloud Container Service to share data between app in
 > While hostPath volumes are used to mount files from the worker node file system to your pod, emptyDir creates an empty directory that is assigned to a pod in your cluster. All containers in that pod can read from and write to that volume. Because the volume is assigned to one specific pod, data cannot be shared with other pods in a replica set.
 * Example of hostpath persistent Volume.
   * Persistent Volume
-  > This creates a persistent volume with the name task-pv-volume.
-The configuration file specifies that the volume is at /tmp/data on the the cluster’s Node. The configuration also specifies a size of 10 gibibytes and an access mode of ReadWriteOnce, which means the volume can be mounted as read-write by a single Node.
-It defines the StorageClass name manual for the PersistentVolume, which will be used to bind PersistentVolumeClaim requests to this PersistentVolume.
+       This creates a persistent volume with the name task-pv-volume.
+       The configuration file specifies that the volume is at /tmp/data on the the cluster’s Node. The configuration also specifies a size of 10 gibibytes and an access mode of ReadWriteOnce, which means the volume can be mounted as read-write by a single Node.
+       It defines the StorageClass name manual for the PersistentVolume, which will be used to bind PersistentVolumeClaim requests to this PersistentVolume.
   
 
 # Persistent data storage options for high availability
