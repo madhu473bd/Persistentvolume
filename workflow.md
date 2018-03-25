@@ -88,7 +88,7 @@ spec:
         - containerPort: 80
           name: "http-server"
       volumeMounts:
-        - mountPath: "/tmp"
+        - mountPath: "/usr/share/nginx/html"
           name: task-pv-storage
 ```
 Notice that the Pod’s configuration file specifies a PersistentVolumeClaim, but it does not specify a PersistentVolume. From the Pod’s point of view, the claim is a volume. Here we are mapping task-pv-claim (/tmp/data) with /usr/share/nginx/html in kubernetes Pod. Now /tmp/data is on the host system and /usr/share/nginx/html is inside the Pod, if you update /usr/share/nginx/html inside Pod /tmp/data on host will reflact the same.
