@@ -13,8 +13,8 @@ You can persist data in IBM Cloud Container Service to share data between app in
   #### Persistent Volume
   
    This creates a persistent volume with the name task-pv-volume.The configuration file specifies that the volume is at /tmp/data on the the cluster’s Node. The configuration also specifies a size of 10 gibibytes and an access mode of ReadWriteOnce, which means the volume can be mounted as read-write by a single Node.It defines the StorageClass name manual for the PersistentVolume, which will be used to bind PersistentVolumeClaim requests to this PersistentVolume.
-  ```
-  kind: PersistentVolume
+```
+kind: PersistentVolume
 apiVersion: v1
 metadata:
   name: task-pv-volume
@@ -42,8 +42,8 @@ Here you see the status of the volume to be available and once you create the Pe
   
 Pods use PersistentVolumeClaims to request physical storage.After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
          
- ```
- kind: PersistentVolumeClaim
+```
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: task-pv-claim1
@@ -53,7 +53,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 3Gi
+      storage: 3Gi 
 ```
 ```
 kubectl get pvc task-pv-claim
