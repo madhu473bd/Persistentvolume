@@ -3,11 +3,12 @@ Persistent Volumes
 You can persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available.
 
 # Non-persistent data storage options
-## Inside the container
-[From](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+## [Inside the container](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
 > Containers and pods are, by design, short-lived and can fail unexpectedly. However, you can write data to the local file system of the container to store data throughout the lifecycle of the container. Data inside a container cannot be shared with other containers or pods and is lost when the container crashes or is removed. For more information, see [Storing data in a container](https://docs.docker.com/storage/).
-## On the worker node
-    
+## [On the worker node](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+> Every worker node is set up with primary and secondary storage that is determined by the machine type that you select for your worker node. The primary storage is used to store data from the operating system and can be accessed by using a Kubernetes hostPath volume External link icon. The secondary storage is used to store data in /var/lib/docker, the directory that all the container data is written to. You can access the secondary storage by using a Kubernetes emptyDir volume.
+> While hostPath volumes are used to mount files from the worker node file system to your pod, emptyDir creates an empty directory that is assigned to a pod in your cluster. All containers in that pod can read from and write to that volume. Because the volume is assigned to one specific pod, data cannot be shared with other pods in a replica set.
+
 # Persistent data storage options for high availability
 ## NFS file store     
        * [Pesistent Volume](#persistent-volume)
