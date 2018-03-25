@@ -36,7 +36,7 @@ kubectl get pv task-pv-volume
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS        CLAIM                    STORAGECLASS   REASON    AGE
 task-pv-volume   10Gi       RWO            Retain           Available     default/task-pv-claim1   manual                   3h
 ```
-Here yo see the status of the volume to be available and once you create the Persistent volume Claim and attach the PV and PVC you can see that status to change to Bound.
+Here you see the status of the volume to be available and once you create the Persistent volume Claim and attach the PV and PVC you can see that status to change to Bound.
 
   #### PersistentVolumeClaim
   
@@ -93,6 +93,26 @@ name: task-pv-storage
 ```
 Notice that the Pod’s configuration file specifies a PersistentVolumeClaim, but it does not specify a PersistentVolume. From the Pod’s point of view, the claim is a volume. Here we are mapping task-pv-claim (/tmp/data) with /usr/share/nginx/html in kubernetes Pod. Now /tmp/data is on the host system and /usr/share/nginx/html is inside the Pod, if you update /usr/share/nginx/html inside Pod /tmp/data on host will reflact the same.
 
+```
+On HOST
+mkdir /tmp/data/
+echo 'Hello from Kubernetes storage' > /tmp/data/index.html
+```
+```
+kubectl create -f task-pv-volume.yaml
+persistentvolume "task-pv-volume" created
+kubectl create -f task-pv-claim.yaml
+persistentvolumeclaim "task-pv-claim" created
+kubectl create -f task-pv-pod.yaml
+pod "task-pv-pod" created
+```
+```
+Get inside the Pod
+kubectl exec -it task-pv-pod -- /bin/bash
+root@task-pv-pod:/# cd /usr/share/nginx/html/
+root@task-pv-pod:/usr/share/nginx/html# ls
+index.html
+```
 
 # Persistent data storage options for high availability
 ## NFS file store     
