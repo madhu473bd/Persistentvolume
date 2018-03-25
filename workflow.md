@@ -5,7 +5,7 @@ You can persist data in IBM Cloud Container Service to share data between app in
 # Non-persistent data storage options
 ## Inside the container
 [From](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
-> Containers and pods are, by design, short-lived and can fail unexpectedly. However, you can write data to the local file system of the container to store data throughout the lifecycle of the container. Data inside a container cannot be shared with other containers or pods and is lost when the container crashes or is removed. For more information, see Storing data in a container.   
+> Containers and pods are, by design, short-lived and can fail unexpectedly. However, you can write data to the local file system of the container to store data throughout the lifecycle of the container. Data inside a container cannot be shared with other containers or pods and is lost when the container crashes or is removed. For more information, see [Storing data in a container](https://docs.docker.com/storage/).
 ## On the worker node
     
 * Persistent data storage options for high availability
