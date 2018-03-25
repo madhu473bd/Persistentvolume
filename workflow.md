@@ -75,17 +75,18 @@ Here you can see that the status has been changed to Bound from Available once t
 kind: Pod
 apiVersion: v1
 metadata:
-  name: task-pv-nfs-pod
+  name: task-pv-pod
 spec:
   volumes:
     - name: task-pv-storage
       persistentVolumeClaim:
-       claimName: task-pv-claim 
+       claimName: task-pv-claim1
   containers:
     - name: task-pv-container
-      image: centos:7
-      command: [ "sh" , "-c"]
-      args: ["-c", "while true; do echo madhutestlog > /tmp;sleep 1000;done"]
+      image: nginx
+      ports:
+        - containerPort: 80
+          name: "http-server"
       volumeMounts:
         - mountPath: "/tmp"
           name: task-pv-storage
