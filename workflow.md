@@ -12,9 +12,7 @@ You can persist data in IBM Cloud Container Service to share data between app in
 ### Example of hostpath persistent Volume.
   #### Persistent Volume
   
-       This creates a persistent volume with the name task-pv-volume.
-       The configuration file specifies that the volume is at /tmp/data on the the cluster’s Node. The configuration also specifies a size of 10 gibibytes and an access mode of ReadWriteOnce, which means the volume can be mounted as read-write by a single Node.
-       It defines the StorageClass name manual for the PersistentVolume, which will be used to bind PersistentVolumeClaim requests to this PersistentVolume.
+   This creates a persistent volume with the name task-pv-volume.The configuration file specifies that the volume is at /tmp/data on the the cluster’s Node. The configuration also specifies a size of 10 gibibytes and an access mode of ReadWriteOnce, which means the volume can be mounted as read-write by a single Node.It defines the StorageClass name manual for the PersistentVolume, which will be used to bind PersistentVolumeClaim requests to this PersistentVolume.
   ```
   kind: PersistentVolume
 apiVersion: v1
@@ -42,7 +40,7 @@ Here yo see the status of the volume to be available and once you create the Per
 
   #### PersistentVolumeClaim
   
-     Pods use PersistentVolumeClaims to request physical storage.After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
+Pods use PersistentVolumeClaims to request physical storage.After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
          
  ```
  kind: PersistentVolumeClaim
@@ -93,9 +91,7 @@ volumeMounts:
 - mountPath: "/usr/share/nginx/html"
 name: task-pv-storage
 ```
-Notice that the Pod’s configuration file specifies a PersistentVolumeClaim, but it does not specify a PersistentVolume. From the Pod’s point of view, the claim is a volume.
-Here we are mapping task-pv-claim (/tmp/data) with /usr/share/nginx/html in kubernetes Pod.
-Now /tmp/data is on the host system and /usr/share/nginx/html is inside the Pod, if you update /usr/share/nginx/html inside Pod /tmp/data on host will reflact the same.
+Notice that the Pod’s configuration file specifies a PersistentVolumeClaim, but it does not specify a PersistentVolume. From the Pod’s point of view, the claim is a volume. Here we are mapping task-pv-claim (/tmp/data) with /usr/share/nginx/html in kubernetes Pod. Now /tmp/data is on the host system and /usr/share/nginx/html is inside the Pod, if you update /usr/share/nginx/html inside Pod /tmp/data on host will reflact the same.
 
 
 # Persistent data storage options for high availability
