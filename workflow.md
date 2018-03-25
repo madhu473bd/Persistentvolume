@@ -7,12 +7,10 @@ You can persist data in IBM Cloud Container Service to share data between app in
     * On the worker node
     
 * Persistent data storage options for high availability
-    * NFS file store
+    * NFS file store     
+       * [Pesistent Volume](#persistent-volume)
+       * [Persistent Volume Claim](#persistent-volume-claim)
+       * [Create a pod with persistent Volume](#create-a-pod-with-persistent-volume)
     * Cloud database service
     * On-prem database
     
-    
-* [Pesistent Volume](#persistent-volume)
-* [Persistent Volume Claim](#persistent-volume-claim)
-* [Create a pod with persistent Volume](#create-a-pod-with-persistent-volume)
-
