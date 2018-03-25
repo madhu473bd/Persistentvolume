@@ -38,6 +38,8 @@ kubectl get pv task-pv-volume
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS        CLAIM                    STORAGECLASS   REASON    AGE
 task-pv-volume   10Gi       RWO            Retain           Available     default/task-pv-claim1   manual                   3h
 ```
+Here yo see the status of the volume to be available and once you create the Persistent volume Claim and attach the PV and PVC you can see that status to change to Bound.
+
   * PersistentVolumeClaim
   
      Pods use PersistentVolumeClaims to request physical storage.After you create the PersistentVolumeClaim, the Kubernetes control plane looks for a PersistentVolume that satisfies the claim’s requirements. If the control plane finds a suitable PersistentVolume with the same StorageClass, it binds the claim to the volume.
@@ -56,19 +58,20 @@ requests:
 storage: 3Gi
 ```
 ```
-kubectl get pv task-pv-volume
-```
-```
-NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
-task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
-```
-```
 kubectl get pvc task-pv-claim
 ```
 ```
 NAME            STATUS    VOLUME               CAPACITY   ACCESS MODES   STORAGECLASS   AGE
 task-pv-claim   Bound     task-pv-nfs-volume   2Gi        RWO            manual         2h
 ```
+```
+kubectl get pv task-pv-volume
+```
+```
+NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
+task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
+```
+Here you can see that the status has been changed to Bound from Available once the Persistent Volume Claim has been created.
 
 # Persistent data storage options for high availability
 ## NFS file store     
