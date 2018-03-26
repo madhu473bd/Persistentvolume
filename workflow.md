@@ -1,24 +1,25 @@
 # Kubernetes Volumes 
 We have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) which can be used with the kubernetes.
-## Consider this example of using the AWS EBS configuration
+## Consider this example of using the hostpath configuration
 ```
 apiVersion: v1
 kind: Pod
 metadata:
-  name: test-ebs
+  name: test-pd
 spec:
   containers:
   - image: k8s.gcr.io/test-webserver
     name: test-container
     volumeMounts:
-    - mountPath: /test-ebs
+    - mountPath: /test-pd
       name: test-volume
   volumes:
   - name: test-volume
-    # This AWS EBS volume must already exist.
-    awsElasticBlockStore:
-      volumeID: <volume-id>
-      fsType: ext4
+    hostPath:
+      # directory location on host
+      path: /data
+      # this field is optional
+      type: Directory
 ```
 # Volume Mode
 Prior to v1.9, the default behavior for all volume plugins was to create a filesystem on the persistent volume. With v1.9, the user can specify a volumeMode which will now support raw block devices in addition to file systems. Valid values for volumeMode are “Filesystem” or “Block”. If left unspecified, volumeMode defaults to “Filesystem” internally. This is an optional API parameter.
