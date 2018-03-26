@@ -21,16 +21,23 @@ spec:
       fsType: ext4
 ```
 # Volume Mode
-> Prior to v1.9, the default behavior for all volume plugins was to create a filesystem on the persistent volume. With v1.9, the user can specify a volumeMode which will now support raw block devices in addition to file systems. Valid values for volumeMode are “Filesystem” or “Block”. If left unspecified, volumeMode defaults to “Filesystem” internally. This is an optional API parameter.
+Prior to v1.9, the default behavior for all volume plugins was to create a filesystem on the persistent volume. With v1.9, the user can specify a volumeMode which will now support raw block devices in addition to file systems. Valid values for volumeMode are “Filesystem” or “Block”. If left unspecified, volumeMode defaults to “Filesystem” internally. This is an optional API parameter.
 # Access Modes
 
 The access modes are:
+
 ReadWriteOnce – the volume can be mounted as read-write by a single node
+
 ReadOnlyMany – the volume can be mounted read-only by many nodes
+
 ReadWriteMany – the volume can be mounted as read-write by many nodes
+
 In the CLI, the access modes are abbreviated to:
+
 RWO - ReadWriteOnce
+
 ROX - ReadOnlyMany
+
 RWX - ReadWriteMany
 
 > Important! A volume can only be mounted using one access mode at a time, even if it supports many. For example, a GCEPersistentDisk can be mounted as ReadWriteOnce by a single node or ReadOnlyMany by many nodes, but not at the same time.
