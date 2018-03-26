@@ -1,3 +1,27 @@
+# Kubernetes Volumes 
+we have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) which can be used with the kubernetes.
+## Consider this example of using the AWS EBS configuration
+```
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-ebs
+spec:
+  containers:
+  - image: k8s.gcr.io/test-webserver
+    name: test-container
+    volumeMounts:
+    - mountPath: /test-ebs
+      name: test-volume
+  volumes:
+  - name: test-volume
+    # This AWS EBS volume must already exist.
+    awsElasticBlockStore:
+      volumeID: <volume-id>
+      fsType: ext4
+```
+
+
 Persistent Volumes
 =================
 You can persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available.
@@ -127,6 +151,7 @@ index.html
 
 ## [On-prem database](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
 > If your data must be stored on-site for legal reasons, you can set up a VPN connection to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
+
 
 
 
