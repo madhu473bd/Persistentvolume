@@ -1,5 +1,5 @@
 # Kubernetes Volumes 
-we have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) which can be used with the kubernetes.
+We have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir) which can be used with the kubernetes.
 ## Consider this example of using the AWS EBS configuration
 ```
 apiVersion: v1
