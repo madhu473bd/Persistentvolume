@@ -87,7 +87,7 @@ Important! A volume can only be mounted using one access mode at a time, even if
 ```sh
 kubectl get pv task-pv-volume
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS        CLAIM                    STORAGECLASS   REASON   AGE
-task-pv-volume   10Gi       RWO            Retain           Available     default/task-pv-claim1   manual                  3h
+task-pv-volume   10Gi       RWO            Retain           Available     default/task-pv-claim    manual                  3h
 ```
 Here you see the status of the volume to be available and once you create the `Persistent volume Claim` and attach the `PV` and `PVC` you can see that status to change to Bound.
 
@@ -99,7 +99,7 @@ Pods use `PersistentVolumeClaims` to request physical storage. After you create 
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: task-pv-claim1
+  name: task-pv-claim
 spec:
   storageClassName: manual
   accessModes:
@@ -117,7 +117,7 @@ task-pv-claim   Bound     task-pv-nfs-volume   2Gi        RWO            manual 
 kubectl get pv task-pv-volume
 
 NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM                    STORAGECLASS   REASON    AGE
-task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim1   manual                   3h
+task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim    manual                   3h
 ```
 Here you can see that the status has been changed to Bound from Available once the Persistent Volume Claim has been created.
 #### Create a Pod With Persistent Volume
@@ -162,5 +162,4 @@ root@task-pv-pod:/# cd /usr/share/nginx/html/
 root@task-pv-pod:/usr/share/nginx/html# ls
 index.html
 ```
-
 
