@@ -1,7 +1,12 @@
 # Persistent Volumes 
-We have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. 
+We have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported from the IBM Cloud Private management console are:
 
-Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The option that is right for you depends on the following factors:
+* NFS
+* Gluster FS
+* vSphere Virtual Volume
+* hostpath
+
+Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. The option that is right for you depends on the following factors:
 
 * **The type of app that you have:** For example, you might have an app that must store data on a file basis rather than inside a database.
 * **Legal requirements for where to store and route the data:** For example, you might be obligated to store and route data in the United States only and you cannot use a service that is located in Europe.
@@ -14,6 +19,73 @@ Persistent Volumes allow you to persist data in IBM Cloud Container Service to s
 With this option, you can persist app and container data by using Kubernetes persistent volumes. Volumes are hosted on [Endurance and Performance NFS-based file storage](https://www.ibm.com/cloud/file-storage/details) which can be used for apps that store data on a file basis rather than in a database. File storage is encrypted at REST.
 
 IBM Cloud Container Service provides predefined storage classes that define the range of sizes of the storage, IOPS, the delete policy, and the read and write permissions for the volume. To initiate a request for NFS-based file storage, you must create a `persistent volume claim (PVC)`. After you submit a `PVC`, IBM Cloud Container Service dynamically provisions a persistent volume that is hosted on NFS-based file storage. You can mount the `PVC` as a volume to your deployment to allow the containers to read from and write to the volume.
+
+#### Create a storage config file for `PV`
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: mypv
+spec:
+ capacity:
+   storage: "20Gi"
+ accessModes:
+   - ReadWriteMany
+ nfs:
+   server: "nfslon0410b-fz.service.networklayer.com"
+   path: "/IBM01SEV8491247_0908/data01"
+```
+#### name 	
+Enter the name of the PV object that you want to create.
+
+#### spec/capacity/storage
+Enter the storage size of the existing NFS file share. The storage size must be written in gigabytes, for example, 20Gi (20 GB) or 1000Gi (1 TB), and the size must match the size of the existing file share.
+
+
+#### spec/accessModes
+
+The access modes are:
+
+* ReadWriteOnce – the volume can be mounted as read-write by a single node
+
+* ReadOnlyMany – the volume can be mounted read-only by many nodes
+
+* ReadWriteMany – the volume can be mounted as read-write by many nodes
+
+In the CLI, the access modes are abbreviated to:
+
+* RWO - ReadWriteOnce
+
+* ROX - ReadOnlyMany
+
+* RWX - ReadWriteMany
+
+#### spec/nfs/server 	
+Enter the NFS file share server ID.
+
+#### spec/nfs/path 	
+Enter the path to the NFS file share where you want to create the PV object.
+
+
+IBM Cloud Container Service provides pre-defined storage classes for `NFS` file storage so that the cluster admin does not have to create any storage classes. The `ibmc-file-bronze` storage class is the same as the `default` storage class.
+
+we can get the different types of storage classes available in IBM Cloud Container Service by the following command;
+
+```sh
+kubectl get storageclasses
+NAME                         TYPE
+default                      ibm.io/ibmc-file
+ibmc-file-bronze (default)   ibm.io/ibmc-file
+ibmc-file-custom             ibm.io/ibmc-file
+ibmc-file-gold               ibm.io/ibmc-file
+ibmc-file-retain-bronze      ibm.io/ibmc-file
+ibmc-file-retain-custom      ibm.io/ibmc-file
+ibmc-file-retain-gold        ibm.io/ibmc-file
+ibmc-file-retain-silver      ibm.io/ibmc-file
+ibmc-file-silver             ibm.io/ibmc-file
+```
+
+Now we have to choose whether we have to store the data or delete it when we delete the `PVC`. To keep the data we have to choose a `retain` storage class i.e., when we delete the PVC, the PV is removed, but the NFS file and the data still exist in our IBM Cloud infrastructure (SoftLayer) account. Otherwise, if we want the data and your NFS file share to be deleted when we delete the PVC, choose a storage class without retain.
 
 ### [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
 With this option, you can persist data by using an IBM Cloud database cloud service, such as IBM Cloudant NoSQL DB. Data that is stored with this option can be accessed across clusters, locations, and regions.
@@ -58,26 +130,6 @@ spec:
   hostPath:
     path: "/tmp/data"
 ```
-#### Volume Mode
-Prior to v1.9, the default behavior for all volume plugins was to create a filesystem on the `persistent volume`. With v1.9, the user can specify a volumeMode which will now support raw block devices in addition to file systems. Valid values for volumeMode are “Filesystem” or “Block”. If left unspecified, volumeMode defaults to “Filesystem” internally. This is an optional API parameter.
-
-#### Access Modes
-
-The access modes are:
-
-* ReadWriteOnce – the volume can be mounted as read-write by a single node
-
-* ReadOnlyMany – the volume can be mounted read-only by many nodes
-
-* ReadWriteMany – the volume can be mounted as read-write by many nodes
-
-In the CLI, the access modes are abbreviated to:
-
-* RWO - ReadWriteOnce
-
-* ROX - ReadOnlyMany
-
-* RWX - ReadWriteMany
 
 #### Note
 {% hint style='danger' %}
@@ -162,5 +214,4 @@ root@task-pv-pod:/# cd /usr/share/nginx/html/
 root@task-pv-pod:/usr/share/nginx/html# ls
 index.html
 ```
-
 
