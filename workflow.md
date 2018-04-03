@@ -22,7 +22,7 @@ With this option, you can persist app and container data by using Kubernetes per
 
 IBM Cloud Container Service provides predefined storage classes that define the range of sizes of the storage, IOPS, the delete policy, and the read and write permissions for the volume. To initiate a request for NFS-based file storage, you must create a `persistent volume claim (PVC)`. After you submit a `PVC`, IBM Cloud Container Service dynamically provisions a persistent volume that is hosted on NFS-based file storage. You can mount the `PVC` as a volume to your deployment to allow the containers to read from and write to the volume.
 
-#### Create a storage config file for `PV`
+#### Create a storage configuration file for `PV`
 ```yaml
 apiVersion: v1
 kind: PersistentVolume
@@ -68,13 +68,16 @@ Enter the NFS file share server ID.
 #### spec/nfs/path 	
 Enter the path to the NFS file share where you want to create the PV object.
 
+#### Storage classes we have for `NFS` file storage are:
 
 IBM Cloud Container Service provides pre-defined storage classes for `NFS` file storage so that the cluster admin does not have to create any storage classes. The `ibmc-file-bronze` storage class is the same as the `default` storage class.
 
 we can get the different types of storage classes available in IBM Cloud Container Service by the following command;
 
 ```sh
-kubectl get storageclasses
+
+$ kubectl get storageclasses
+
 NAME                         TYPE
 default                      ibm.io/ibmc-file
 ibmc-file-bronze (default)   ibm.io/ibmc-file
@@ -112,6 +115,57 @@ If we choose the custom storage class, we get [Performance storage](https://know
 |4000-7999 Gi |	300-48000 IOPS |
 |8000-9999 Gi |	500-48000 IOPS |
 |10000-12000 Gi |	1000-48000 IOPS |
+
+#### Create a `PVC` Configuration file
+
+We can create the `PVC` with one of the storage classes `bronze,silver,gold` or `custom` which can be billed `hourly` or `monthly`. By default, we are billed `monthly`.
+
+```yaml
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mypvc
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "ibmc-file-silver"
+  labels:
+    billingType: "hourly"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 24Gi
+```
+
+To mount the `PVC` to our deployment, we have to create a configuration file as follows.
+
+```yaml
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: <deployment_name>
+  labels:
+    app: <deployment_label>
+spec:
+  selector:
+    matchLabels:
+      app: <app_name>
+  template:
+    metadata:
+      labels:
+        app: <app_name>
+    spec:
+      containers:
+      - image: <image_name>
+        name: <container_name>
+        volumeMounts:
+        - name: <volume_name>
+          mountPath: /<file_path>
+      volumes:
+      - name: <volume_name>
+        persistentVolumeClaim:
+          claimName: <pvc_name>
+```
 
 
 ### [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
@@ -159,9 +213,9 @@ spec:
 ```
 
 #### Note
-{% hint style='danger' %}
+
 Important! A volume can only be mounted using one access mode at a time, even if it supports many. For example, a volume can be mounted as ReadWriteOnce by a single node or ReadOnlyMany by many nodes, but not at the same time.
-{% endhint %}
+
 
 ```sh
 kubectl get pv task-pv-volume
