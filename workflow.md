@@ -170,18 +170,18 @@ spec:
 ```
 
 
-### [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+### Cloud database service
 With this option, you can persist data by using an IBM Cloud database cloud service, such as IBM Cloudant NoSQL DB. Data that is stored with this option can be accessed across clusters, locations, and regions.
 
 You can choose to configure a single database instance that all your apps access, or to [set up multiple instances across data centers and replication](https://console.bluemix.net/docs/services/Cloudant/guides/active-active.html#configuring-cloudant-nosql-db-for-cross-region-disaster-recovery) between the instances for higher availability. In IBM Cloudant NoSQL database, data is not backed up automatically. You can use the provided [backup and restore mechanisms](https://console.bluemix.net/docs/services/Cloudant/guides/backup-cookbook.html#cloudant-nosql-db-backup-and-recovery) to protect your data from a site failure.
 
-### [On-prem database](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+### On-prem database
 If your data must be stored on-site for legal reasons, you can set up a VPN connection to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
 
 ## Non-persistent data storage options
-### [Inside the container](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+### Inside the container
 Containers and pods are, by design, short-lived and can fail unexpectedly. However, you can write data to the local file system of the container to store data throughout the lifecycle of the container. Data inside a container cannot be shared with other containers or pods and is lost when the container crashes or is removed. For more information, see [Storing data in a container](https://docs.docker.com/storage/).
-### [On the worker node](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
+### On the worker node
 Every worker node is set up with primary and secondary storage that is determined by the machine type that you select for your worker node. The primary storage is used to store data from the operating system and can be accessed by using a [Kubernetes `hostPath` volume](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath). The secondary storage is used to store data in `/var/lib/docker`, the directory that all the container data is written to. You can access the secondary storage by using a [Kubernetes `emptyDir` volume](https://kubernetes.io/docs/concepts/storage/volumes/#emptydir).
 
 While `hostPath` volumes are used to mount files from the worker node file system to your pod, `emptyDir` creates an empty directory that is assigned to a pod in your cluster. All containers in that pod can read from and write to that volume. Because the volume is assigned to one specific pod, data cannot be shared with other pods in a replica set.
