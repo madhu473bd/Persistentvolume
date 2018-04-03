@@ -218,9 +218,7 @@ spec:
 
 #### Note
 {% hint style='info' %}
-
 Important! A volume can only be mounted using one access mode at a time, even if it supports many. For example, a volume can be mounted as ReadWriteOnce by a single node or ReadOnlyMany by many nodes, but not at the same time.
-
 {% endhint %}
 
 ```sh
