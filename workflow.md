@@ -89,7 +89,7 @@ ibmc-file-silver             ibm.io/ibmc-file
 
 Now we have to choose whether we have to store the data or delete it when we delete the `PVC`. To keep the data we have to choose a `retain` storage class i.e., when we delete the `PVC`, the `PV` is removed, but the `NFS` file and the data still exist in our IBM Cloud infrastructure (SoftLayer) account. Otherwise, if we want the data and your NFS file share to be deleted when we delete the PVC, choose a storage class without retain.
 
-| Storage class |	IOPS per gigabyte |	Size range in gigabytes |     
+|Storage class |IOPS per gigabyte |Size range in gigabytes |     
 | --- | --- | --- |
 | Bronze (default) |	2 IOPS/GB |	20-12000 Gi |
 | Silver |	4 IOPS/GB |	20-12000 Gi |
