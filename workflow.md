@@ -1,10 +1,4 @@
 # Persistent Volumes 
-We have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported from the IBM Cloud Private management console are:
-
-* NFS
-* Gluster FS
-* vSphere Virtual Volume
-* hostpath
 
 Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. The option that is right for you depends on the following factors:
 
@@ -13,8 +7,16 @@ Persistent Volumes allow you to persist data in IBM Cloud Container Service to s
 * **Backup and restore options:** Every storage options comes with capabilities to backup and restore data. Check that available backup and restore options meet the requirements of your disaster recovery plan, such as the frequency of backups or the capabilities of storing data outside your primary data center.
 * **Global replication:** For high availability, you might want to set up multiple instances of storage that are distributed and replicated across data centers worldwide.
 
+We also have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported for the IBM Cloud Private management console are:
+
+* NFS
+* Gluster FS
+* vSphere Virtual Volume
+* hostpath
+
 
 ## Persistent data storage options for high availability
+
 ### [NFS file store](https://console.bluemix.net/docs/containers/cs_storage.html#storage)   
 With this option, you can persist app and container data by using Kubernetes persistent volumes. Volumes are hosted on [Endurance and Performance NFS-based file storage](https://www.ibm.com/cloud/file-storage/details) which can be used for apps that store data on a file basis rather than in a database. File storage is encrypted at REST.
 
@@ -85,7 +87,14 @@ ibmc-file-retain-silver      ibm.io/ibmc-file
 ibmc-file-silver             ibm.io/ibmc-file
 ```
 
-Now we have to choose whether we have to store the data or delete it when we delete the `PVC`. To keep the data we have to choose a `retain` storage class i.e., when we delete the PVC, the PV is removed, but the NFS file and the data still exist in our IBM Cloud infrastructure (SoftLayer) account. Otherwise, if we want the data and your NFS file share to be deleted when we delete the PVC, choose a storage class without retain.
+Now we have to choose whether we have to store the data or delete it when we delete the `PVC`. To keep the data we have to choose a `retain` storage class i.e., when we delete the `PVC`, the `PV` is removed, but the `NFS` file and the data still exist in our IBM Cloud infrastructure (SoftLayer) account. Otherwise, if we want the data and your NFS file share to be deleted when we delete the PVC, choose a storage class without retain.
+
+| Storage class |	IOPS per gigabyte |	Size range in gigabytes |     
+| --- | --- | --- |
+| Bronze (default) |	2 IOPS/GB |	20-12000 Gi |
+| Silver |	4 IOPS/GB |	20-12000 Gi |
+| Gold |	10 IOPS/GB |	20-4000 Gi |
+
 
 ### [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
 With this option, you can persist data by using an IBM Cloud database cloud service, such as IBM Cloudant NoSQL DB. Data that is stored with this option can be accessed across clusters, locations, and regions.
