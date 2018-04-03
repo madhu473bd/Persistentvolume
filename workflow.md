@@ -1,6 +1,6 @@
 # Persistent Volumes 
 
-Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. The option that is right for us depends on the following factors:
+Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`(we are not going to use this on-prem database unless in the extreme cases). The option that is right for us depends on the following factors:
 
 * **The type of app that you have:** For example, you might have an app that must store data on a file basis rather than inside a database.
 * **Legal requirements for where to store and route the data:** For example, you might be obligated to store and route data in the United States only and you cannot use a service that is located in Europe.
@@ -9,11 +9,12 @@ Persistent Volumes allow you to persist data in IBM Cloud Container Service to s
 
 We also have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported for the IBM Cloud Private management console are:
 
-* NFS
-* Gluster FS
-* vSphere Virtual Volume
-* hostpath
+* [NFS](https://kubernetes.io/docs/concepts/storage/volumes/#nfs)
+* [Gluster FS](https://kubernetes.io/docs/concepts/storage/volumes/#glusterfs)
+* [vSphere Virtual Volume](https://kubernetes.io/docs/concepts/storage/volumes/#vspherevolume)
+* [hostpath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath)
 
+In this document we are going to discuss about the `NFS` file storage in the IBM Private Cloud.
 
 ## Persistent data storage options for high availability
 
@@ -21,52 +22,6 @@ We also have different types of [volumes](https://kubernetes.io/docs/concepts/st
 With this option, you can persist app and container data by using Kubernetes persistent volumes. Volumes are hosted on [Endurance and Performance NFS-based file storage](https://www.ibm.com/cloud/file-storage/details) which can be used for apps that store data on a file basis rather than in a database. File storage is encrypted at REST.
 
 IBM Cloud Container Service provides predefined storage classes that define the range of sizes of the storage, IOPS, the delete policy, and the read and write permissions for the volume. To initiate a request for NFS-based file storage, you must create a `persistent volume claim (PVC)`. After you submit a `PVC`, IBM Cloud Container Service dynamically provisions a persistent volume that is hosted on NFS-based file storage. You can mount the `PVC` as a volume to your deployment to allow the containers to read from and write to the volume.
-
-#### Create a storage configuration file for `PV`
-```yaml
-apiVersion: v1
-kind: PersistentVolume
-metadata:
- name: mypv
-spec:
- capacity:
-   storage: "20Gi"
- accessModes:
-   - ReadWriteMany
- nfs:
-   server: "nfslon0410b-fz.service.networklayer.com"
-   path: "/IBM01SEV8491247_0908/data01"
-```
-#### name 	
-Enter the name of the PV object that you want to create.
-
-#### spec/capacity/storage
-Enter the storage size of the existing NFS file share. The storage size must be written in gigabytes, for example, 20Gi (20 GB) or 1000Gi (1 TB), and the size must match the size of the existing file share.
-
-
-#### spec/accessModes
-
-The access modes are:
-
-* ReadWriteOnce – the volume can be mounted as read-write by a single node
-
-* ReadOnlyMany – the volume can be mounted read-only by many nodes
-
-* ReadWriteMany – the volume can be mounted as read-write by many nodes
-
-In the CLI, the access modes are abbreviated to:
-
-* RWO - ReadWriteOnce
-
-* ROX - ReadOnlyMany
-
-* RWX - ReadWriteMany
-
-#### spec/nfs/server 	
-Enter the NFS file share server ID.
-
-#### spec/nfs/path 	
-Enter the path to the NFS file share where you want to create the PV object.
 
 #### Storage classes we have for `NFS` file storage are:
 
@@ -117,6 +72,53 @@ If we choose the custom storage class, we get [Performance storage](https://know
 |4000-7999 Gi |	300-48000 IOPS |
 |8000-9999 Gi |	500-48000 IOPS |
 |10000-12000 Gi |	1000-48000 IOPS |
+
+#### Create a storage configuration file for `PV`
+```yaml
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ name: mypv
+spec:
+ capacity:
+   storage: "20Gi"
+ accessModes:
+   - ReadWriteMany
+ nfs:
+   server: "nfslon0410b-fz.service.networklayer.com"
+   path: "/IBM01SEV8491247_0908/data01"
+```
+#### name 	
+Enter the name of the PV object that you want to create.
+
+#### spec/capacity/storage
+Enter the storage size of the existing NFS file share. The storage size must be written in gigabytes, for example, 20Gi (20 GB) or 1000Gi (1 TB), and the size must match the size of the existing file share.
+
+
+#### spec/accessModes
+
+The access modes are:
+
+* ReadWriteOnce – the volume can be mounted as read-write by a single node
+
+* ReadOnlyMany – the volume can be mounted read-only by many nodes
+
+* ReadWriteMany – the volume can be mounted as read-write by many nodes
+
+In the CLI, the access modes are abbreviated to:
+
+* RWO - ReadWriteOnce
+
+* ROX - ReadOnlyMany
+
+* RWX - ReadWriteMany
+
+#### spec/nfs/server 	
+Enter the NFS file share server ID.
+
+#### spec/nfs/path 	
+Enter the path to the NFS file share where you want to create the PV object.
+
 
 #### Create a `PVC` Configuration file
 
@@ -176,6 +178,7 @@ With this option, you can persist data by using an IBM Cloud database cloud serv
 You can choose to configure a single database instance that all your apps access, or to [set up multiple instances across data centers and replication](https://console.bluemix.net/docs/services/Cloudant/guides/active-active.html#configuring-cloudant-nosql-db-for-cross-region-disaster-recovery) between the instances for higher availability. In IBM Cloudant NoSQL database, data is not backed up automatically. You can use the provided [backup and restore mechanisms](https://console.bluemix.net/docs/services/Cloudant/guides/backup-cookbook.html#cloudant-nosql-db-backup-and-recovery) to protect your data from a site failure.
 
 ### 3. On-prem database
+At the moment we are not going to use this On-prem database but when needed in the extreme cases we can use this as a option.
 If your data must be stored on-site for legal reasons, you can [set up a VPN connection](https://console.bluemix.net/docs/containers/cs_vpn.html#vpn) to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
 
 ## Non-persistent data storage options
@@ -215,9 +218,9 @@ spec:
 ```
 
 #### Note
-
+{% hint style='info' %}
 Important! A volume can only be mounted using one access mode at a time, even if it supports many. For example, a volume can be mounted as ReadWriteOnce by a single node or ReadOnlyMany by many nodes, but not at the same time.
-
+{% endhint %}
 
 ```sh
 kubectl get pv task-pv-volume
@@ -298,3 +301,4 @@ root@task-pv-pod:/# cd /usr/share/nginx/html/
 root@task-pv-pod:/usr/share/nginx/html# ls
 index.html
 ```
+
