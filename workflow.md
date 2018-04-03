@@ -89,11 +89,29 @@ ibmc-file-silver             ibm.io/ibmc-file
 
 Now we have to choose whether we have to store the data or delete it when we delete the `PVC`. To keep the data we have to choose a `retain` storage class i.e., when we delete the `PVC`, the `PV` is removed, but the `NFS` file and the data still exist in our IBM Cloud infrastructure (SoftLayer) account. Otherwise, if we want the data and your NFS file share to be deleted when we delete the PVC, choose a storage class without retain.
 
-|Storage class |IOPS per gigabyte |Size range in gigabytes |     
+If we choose a bronze, silver, or gold storage class, we get [Endurance storage](https://knowledgelayer.softlayer.com/topic/endurance-storage) that defines the IOPS per GB for each class. However, we can determine the total IOPS by choosing a size within the available range. We can select any whole number of gigabyte sizes within the allowed size range (such as 20 Gi, 256 Gi, 11854 Gi).
+
+| Storage class |	IOPS per gigabyte |	Size range in gigabytes |     
 | --- | --- | --- |
 | Bronze (default) |	2 IOPS/GB |	20-12000 Gi |
 | Silver |	4 IOPS/GB |	20-12000 Gi |
 | Gold |	10 IOPS/GB |	20-4000 Gi |
+
+If we choose the custom storage class, we get [Performance storage](https://knowledgelayer.softlayer.com/topic/performance-storage) and have more control over choosing the combination of IOPS and size. 
+
+|Size range in gigabytes |	IOPS range in multiples of 100 |
+| --- | --- |
+|20-39 Gi |	100-1000 IOPS |
+|40-79 Gi |	100-2000 IOPS |
+|80-99 Gi |	100-4000 IOPS |
+|100-499 Gi |	100-6000 IOPS |
+|500-999 Gi |	100-10000 IOPS |
+|1000-1999 Gi |	100-20000 IOPS |
+|2000-2999 Gi |	200-40000 IOPS |
+|3000-3999 Gi |	200-48000 IOPS |
+|4000-7999 Gi |	300-48000 IOPS |
+|8000-9999 Gi |	500-48000 IOPS |
+|10000-12000 Gi |	1000-48000 IOPS |
 
 
 ### [Cloud database service](https://console.bluemix.net/docs/containers/cs_storage.html#storage)
