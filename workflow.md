@@ -1,6 +1,6 @@
 # Persistent Volumes 
 
-Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. The option that is right for you depends on the following factors:
+Persistent Volumes allow you to persist data in IBM Cloud Container Service to share data between app instances and to protect your data from being lost if a component in your Kubernetes cluster fails. For having a high availability of storage in the IBM cloud container service we have several options available. The options that we have in IBM Cloud Container Service to make our data highly available in a cluster are `NFS file storage`, `Cloud database service`, `On-prem database`. The option that is right for us depends on the following factors:
 
 * **The type of app that you have:** For example, you might have an app that must store data on a file basis rather than inside a database.
 * **Legal requirements for where to store and route the data:** For example, you might be obligated to store and route data in the United States only and you cannot use a service that is located in Europe.
@@ -69,6 +69,8 @@ Enter the NFS file share server ID.
 Enter the path to the NFS file share where you want to create the PV object.
 
 #### Storage classes we have for `NFS` file storage are:
+
+StorageClass objects are created and managed by cluster administrators who can define available storage based on qualitative attributes such as “fast”, “slow”, “gold”, or “silver”, etc. These attributes can, in turn, reflect actual storage settings such as quality of service, availability, replication, backup policies, speed of disk, etc, as defined in the storage system.
 
 IBM Cloud Container Service provides pre-defined storage classes for `NFS` file storage so that the cluster admin does not have to create any storage classes. The `ibmc-file-bronze` storage class is the same as the `default` storage class.
 
