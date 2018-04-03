@@ -176,7 +176,7 @@ With this option, you can persist data by using an IBM Cloud database cloud serv
 You can choose to configure a single database instance that all your apps access, or to [set up multiple instances across data centers and replication](https://console.bluemix.net/docs/services/Cloudant/guides/active-active.html#configuring-cloudant-nosql-db-for-cross-region-disaster-recovery) between the instances for higher availability. In IBM Cloudant NoSQL database, data is not backed up automatically. You can use the provided [backup and restore mechanisms](https://console.bluemix.net/docs/services/Cloudant/guides/backup-cookbook.html#cloudant-nosql-db-backup-and-recovery) to protect your data from a site failure.
 
 ### 3. On-prem database
-If your data must be stored on-site for legal reasons, you can set up a VPN connection to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
+If your data must be stored on-site for legal reasons, you can [set up a VPN connection](https://console.bluemix.net/docs/containers/cs_vpn.html#vpn) to your on-premise database and use existing storage, backup and replication mechanisms in your data center.
 
 ## Non-persistent data storage options
 ### Inside the container
