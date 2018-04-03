@@ -255,6 +255,7 @@ NAME             CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS    CLAIM     
 task-pv-volume   10Gi       RWO            Retain           Bound     default/task-pv-claim    manual                   3h
 ```
 Here you can see that the status has been changed to Bound from Available once the Persistent Volume Claim has been created.
+
 #### Create a Pod With Persistent Volume
 ```yaml
 kind: Pod
@@ -297,4 +298,3 @@ root@task-pv-pod:/# cd /usr/share/nginx/html/
 root@task-pv-pod:/usr/share/nginx/html# ls
 index.html
 ```
-
