@@ -7,14 +7,13 @@ Persistent Volumes allow you to persist data in IBM Cloud Container Service to s
 * **Backup and restore options:** Every storage options comes with capabilities to backup and restore data. Check that available backup and restore options meet the requirements of your disaster recovery plan, such as the frequency of backups or the capabilities of storing data outside your primary data center.
 * **Global replication:** For high availability, you might want to set up multiple instances of storage that are distributed and replicated across data centers worldwide.
 
-We also have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported for the IBM Cloud Private management console are:
+We also have different types of [volumes](https://kubernetes.io/docs/concepts/storage/volumes) which can be used with the Kubernetes. The storage types that are supported for the IBM Cloud Private management console are the following and we are going to discuss about the `NFS` file storage in the IBM Private Cloud in this document.
 
 * [NFS](https://kubernetes.io/docs/concepts/storage/volumes/#nfs)
 * [Gluster FS](https://kubernetes.io/docs/concepts/storage/volumes/#glusterfs)
 * [vSphere Virtual Volume](https://kubernetes.io/docs/concepts/storage/volumes/#vspherevolume)
 * [hostpath](https://kubernetes.io/docs/concepts/storage/volumes/#hostpath)
 
-In this document we are going to discuss about the `NFS` file storage in the IBM Private Cloud.
 
 ## Persistent data storage options for high availability
 
@@ -219,7 +218,9 @@ spec:
 
 #### Note
 {% hint style='info' %}
+
 Important! A volume can only be mounted using one access mode at a time, even if it supports many. For example, a volume can be mounted as ReadWriteOnce by a single node or ReadOnlyMany by many nodes, but not at the same time.
+
 {% endhint %}
 
 ```sh
